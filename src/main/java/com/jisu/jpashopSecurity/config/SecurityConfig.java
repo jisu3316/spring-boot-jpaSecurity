@@ -16,15 +16,16 @@ public class SecurityConfig {
         http.csrf().disable();
         http.authorizeRequests()
                 .antMatchers("/user/**").authenticated() // /user/** 밑으로 들어오는 url는 인증이 필요하다.
-                .antMatchers("/manager/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')") //hasRole 권한이 있어야한다.
-                .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
+//                .antMatchers("/manager/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')") //hasRole 권한이 있어야한다.
+//                .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
                 .anyRequest().permitAll()          //나머지 주소는 권한이 허용이된다.
                 .and()
                 .formLogin()
-                .loginPage("/createMemberForm")
-                //.usernameParameter("username2")  form에서 name값을 바꿔주려면 parameter 바꿔줘야함
+                .loginPage("/loginForm")
+                .usernameParameter("email")  //form에서 name값을 바꿔주려면 parameter 바꿔줘야함
                 .loginProcessingUrl("/login")       //login 조수가 호출이되면 시큐리가 낚아채서 대신 로그인을 진행해줍니다.
-                .defaultSuccessUrl("/")
+                .permitAll()
+//                .defaultSuccessUrl("/")
                 .and()
                 .logout().permitAll();
 //                .and()
