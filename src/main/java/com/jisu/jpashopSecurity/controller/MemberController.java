@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -26,7 +27,7 @@ public class MemberController {
 
     @PostMapping("/members/new")
     public String create(@Valid MemberForm form, BindingResult result) {
-
+        memberService.memberCheck(form.getEmail());
         if (result.hasErrors()) {
             return "members/createMemberForm";
         }
@@ -40,4 +41,9 @@ public class MemberController {
         return "redirect:/";
 
     }
+
+    public void one(@PathVariable String email) {
+         memberService.memberCheck(email);
+    }
+
 }
