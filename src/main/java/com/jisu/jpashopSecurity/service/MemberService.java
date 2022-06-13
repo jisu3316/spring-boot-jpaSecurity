@@ -22,7 +22,7 @@ public class MemberService {
      */
     @Transactional
     public Long join(Member member) {
-        validateDuplicateMember(member);
+
         String password = bCryptPasswordEncoder.encode(member.getPassword());
         member.hasRole("ROLE_USER");
         member.encodePassword(password);
@@ -30,8 +30,11 @@ public class MemberService {
         return member.getId();
     }
 
-    private void validateDuplicateMember(Member member){
-        List<Member> findMembers = memberRepository.findByEmail(member.getEmail());
+    public void memberCheck(String email) {
+        validateDuplicateMember(email);
+    }
+    private void validateDuplicateMember(String email){
+        List<Member> findMembers = memberRepository.findByEmail(email);
         if(!findMembers.isEmpty()) {
             throw new IllegalStateException("이미 존재하는 회원입니다.");
         }
